@@ -1,0 +1,41 @@
+---
+appVersion: apps/v1
+kind: Deployment
+metadata:
+ name: java-ms
+ labels:
+   app: java-ms
+spec:
+  replicas: 3
+  selector:
+   matchLabels:
+     app: java-ms
+  template:
+    metadata:
+      labels:
+        app: java-ms
+    spec:
+     containers:
+     - name: java-ms
+       image: deploymenthub/account-service
+       ports:
+       - containerPorts: 2222
+         protocol: TCP
+
+---
+apiversion: v1
+kind: Service
+metadata:
+ name: java-service
+ lables:
+   app: java-ms
+spec:
+ type: NodePort
+ ports:
+  - port: 2222
+    targetport: 2222
+    nodeport: 300002
+ selector:
+    app: java-ms
+
+        
